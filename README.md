@@ -5,7 +5,20 @@ Ionic calendar directive
 [![version](https://img.shields.io/npm/v/ionic2-calendar/latest.svg)](https://www.npmjs.com/package/ionic2-calendar)
 [![GitHub License](https://img.shields.io/npm/l/ionic2-calendar.svg)](https://raw.githubusercontent.com/twinssbc/Ionic2-Calendar/master/LICENSE)
 
+# Table of Contents
+1. [Demo](#demo)  
+2. [Dependency](#dependency)
+3. [Usage](#usage)
+4. [Options](#options)
+5. [Callback](#callback)
+6. [View Customization Option](#view-customization-option)
+7. [EventSource](#eventsource)
+8. [Performance Tuning](#performance-tuning)
+9. [Common Questions](#common-questions)
+
 # Demo
+Version 2.0    
+https://stackblitz.com/edit/ionic-calendar-demo-2-2?file=src%2Fapp%2Fexample.component.html    
 Version 1.0    
 https://stackblitz.com/edit/ionic-calendar-demo-1-0?file=src%2Fapp%2Fexample.component.html    
 Version 0.x    
@@ -14,6 +27,8 @@ https://stackblitz.com/edit/ionic-calendar-demo?file=pages%2Fhome%2Fhome.html
 
 
 # Dependency
+Version 2.3.x depends on Ionic (>=7.0.0), Angular (>=17.0.0) and Swiper (>=11.0.0).   
+Version 2.2.x depends on Ionic (>=7.0.0), Angular (>=17.0.0) and Swiper (>=10.1.0).   
 Version 2.1.x depends on Ionic (>=7.0.0), Angular (>=16.0.0) and Swiper (>=10.1.0).   
 Version 2.0.x depends on Ionic (>=7.0.0), Angular (>=16.0.0) and Swiper (>=8.4.6, <9.0.0).   
 Version 1.0.x depends on Ionic (>=6.1.9), Angular (>=15.1.2) and Swiper (>=8.4.6, <9.0.0).   
@@ -135,6 +150,14 @@ export class MyPageModule {}
 
 # Options
 
+* `dayviewShowCategoryView` (version: 2.4+)    
+Determines if show dayview with category    
+Type: `boolean`    
+Default value: `false`    
+* `dayviewCategorySource` (version: 2.4+)    
+Determines the source the category names so that events with corresponding category will display accordingly. If events are not assigned with category, they will NOT be placed in the category view.    
+Type: `Set<string>`    
+Default value: `null`    
 * formatDay    
 The format of the date displayed in the month view.    
 Default value: 'dd'
@@ -513,6 +536,11 @@ Applied to the all day label in day view
 * calendar-hour-column  
 Applied to the hour column in both weekview and day view
 
+* dayview-category-header (version: 2.4+)  
+Applied to the category section in day view  
+
+* dayview-category-header-item (version: 2.4+)  
+Applied to the category header item in day view  
 
 ## Template Customization  
 
@@ -578,6 +606,16 @@ The template provides customized view for normal event in the weekview
     </ng-template>
 
     <calendar ... [weekviewNormalEventTemplate]="weekviewNormalEventTemplate"></calendar>
+```
+
+* dayviewCategoryItemTemplate (version: 2.4+)  
+The template provides customized view for category item with categoryId and categoryName in the day view  
+``` html
+    <ng-template #dayviewCategoryItemTemplate let-category="category">
+        {{ category.categoryName }}
+    </ng-template>
+
+    <calendar ... [dayviewCategoryItemTemplate]="dayviewCategoryItemTemplate"></calendar>
 ```
 
 * dayviewAllDayEventTemplate  
@@ -785,6 +823,9 @@ For example, if an allDay event ending to 2014-05-10, then endTime is
 ```
 * allDay    
 Indicates the event is allDay event or regular event
+
+* category (optional)    
+Indicates which category the event belongs to. If the value is specified but not one of `dayviewCategorySource`, the event will not display in category view.
 
 **Note** The calendar only watches for the eventSource reference for performance consideration. That means only you manually reassign the eventSource value, the calendar gets notified, and this is usually fit to the scenario when the range is changed, you load a new data set from the backend. In case you want to manually insert/remove/update the element in the eventSource array, you can call [instance method](#instance-methods) ‘loadEvents’ event to notify the calendar manually.
 
